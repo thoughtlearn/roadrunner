@@ -22,5 +22,49 @@
 }
 
 .garage{
+  width: 56vw;
+  height: 63vh;
+}
 
+.vehicle_browser{
+  height:90%;
+  display: flex;
+}
+
+.vehicle{
+  width: 49vw;
+  height:56vh;
+}
+
+.vehicle:hover {
+  cursor: pointer;
+}
+
+.image{
+  width: 49vw;
+  height: 50vh;
+}
+.vehicle_adder{
+  height:10%;
+}
+.vehicle_adder div{
+  height: 4vh;
+  line-height: 4vh;
+  text-align: center;
+  font-size: 2vh;
+  font-weight: bold;
+  width: 4vh;
+  border-radius: 50%;
+  display: inline-block;
+  color: #ffffff;
+  background: #b700ce;
+}
+.vehicle_adder div:hover {
+  cursor: pointer;
+}
+.vehicle_adder div:active {
+  transform: translateY(4px);
+}
+.odometer{
+  height: 6vh;
 }
