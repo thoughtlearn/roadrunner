@@ -17,6 +17,13 @@
   color: white;
 }
 
+.vehicleNumber{
+  font-weight: bold;
+  font-family: Helvetica;
+  font-size: calc(10px + 2vmin);
+  color: #eedfd3;
+}
+
 .App-link {
   color: #09d3ac;
 }

@@ -13,7 +13,7 @@ import car3static from './images/car3.png';
 import car3Gif from './images/caranim3.gif';
 import defaultStatic from './images/default.png';
 import defaultGif from './images/defult.gif';
-
+import axios from 'axios';
 import Odometer from 'react-odometerjs';
 
 
@@ -29,13 +29,19 @@ const defaultImage = {"static":defaultStatic, "running":defaultGif}
 
 function Garage(props) {
    const vehicles = props.vehicles.map( v => {
-       return(<Vehicle
+       return(
+           <div>
+             <span className={"vehicleNumber"}>VIN: {v.id}</span>
+           <Vehicle
+               key = {v.id}
                type = {v.type}
                model = {v.model}
                minSpeed = {v.minSpeed}
                maxSpeed = {v.maxSpeed}
                mileage = {v.mileage}
+               id = {v.id}
            />
+           </div>
 
        );
     });
@@ -71,9 +77,29 @@ function Vehicle(props) {
     update();
     return (<div className="vehicle" onClick={
 
-        () => {
+        async () => {
             setImageSrc(getVehicleImage(props.type, props.model, isRunning ? "static" : "running"));
+            let wasRunning = isRunning;
             setRunning(!isRunning);
+          if(wasRunning){
+            try{
+              await axios.post('http://localhost:8080/transaction', {
+                "vin_number": props.id,
+                "odo_value": odometerValue + 1,
+                "timestamp": new Date().toISOString()
+              });
+              console.log("Successfully sent odometer reading");
+            }
+            catch (e) {
+              console.error("Unable to post odometer readings", e);
+            }
+            if(localStorage[props.id]){
+              let localVehicle = JSON.parse(localStorage[props.id]);
+              localVehicle.mileage = odometerValue + 1;
+              localStorage[props.id] = JSON.stringify(localVehicle);
+
+            }
+          }
         }
     }>
        <img src={imgSrc} alt={"Loading..."} className="image"/>
